@@ -111,7 +111,7 @@ skybox.infiniteDistance = true;
 // scene.createDefaultSkybox(hdrTexture, true, 10000);
 
 //call wall function
-makeMap();
+wallMat = makeMap();
 
 // ground
 var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
@@ -180,6 +180,12 @@ window.addEventListener("keydown", (evt) => {
     if (evt.key === "b" || evt.key === "B") {
         blurTimer = 0;
         blurStrength = 0;
+
+        if(Math.random() < 0.3){
+            wallMat.diffuseTexture = new BABYLON.Texture("textures/Dog1.png", scene);
+        } else {
+            wallMat.diffuseTexture = new BABYLON.Texture("textures/decorative_wall_1-1K/1K-grunge_wall_2_basecolor.png", scene);
+        }
     }
 });
 

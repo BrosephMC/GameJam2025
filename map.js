@@ -713,5 +713,5 @@ function makeMap() {
         box.checkCollisions = true;
         box.material = wallMat
 
-
+        return wallMat;
 }
