@@ -105,12 +105,82 @@ skybox.infiniteDistance = true;
 // var hdrTexture = new BABYLON.CubeTexture("textures/skybox.png", scene);
 // scene.createDefaultSkybox(hdrTexture, true, 10000);
 
-// box
+// box - wall0
 var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
 box.position.y = 1;
 box.checkCollisions = true;
 var wallMat = new BABYLON.StandardMaterial("Mat", scene);
-wallMat.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg", scene);
+wallMat.diffuseTexture = new BABYLON.Texture("textures/decorative_wall_1-1K/1K-grunge_wall_2_basecolor.png", scene);
+box.material = wallMat
+
+//wall1
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -2;
+box.position.y = 1;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall2
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -4;
+box.position.y = 1;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall3
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -4;
+box.position.y = 1;
+box.position.z = 2;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall4
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -4;
+box.position.y = 1;
+box.position.z = -2;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall5
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -4;
+box.position.y = 1;
+box.position.z = -4;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall6
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -4;
+box.position.y = 1;
+box.position.z = 4;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall6
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -6;
+box.position.y = 1;
+box.position.z = 0;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall7
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -8;
+box.position.y = 1;
+box.position.z = 0;
+box.checkCollisions = true;
+box.material = wallMat
+
+//wall8
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.x = -8;
+box.position.y = 1;
+box.position.z = -2;
+box.checkCollisions = true;
 box.material = wallMat
 
 // ground
