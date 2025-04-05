@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js sample code</title>
+        <title>Losing Our Minds Together</title>
 
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
@@ -24,7 +24,8 @@
         <script src="https://cdn.babylonjs.com/addons/babylonjs.addons.min.js"></script>
         <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
         <script src="map.js"></script>
-        
+        <script src="SpecialObjs.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
         
 
 
@@ -162,8 +163,10 @@ groundMaterial.diffuseTexture.uScale = 80; // Repeat texture along the X-axis
 groundMaterial.diffuseTexture.vScale = 80; // Repeat texture along the Y-axis
 
 // Doggie
-var doggieSprite = new BABYLON.SpriteManager("spriteManager", "textures/Dog1.png", 10, {width: 645, height: 645}, scene);
-var doggie = new BABYLON.Sprite("arrow", doggieSprite);
+// var doggieSprite = new BABYLON.SpriteManager("spriteManager", "textures/Dog1.png", 10, {width: 645, height: 645}, scene);
+const doggieSprite = new BABYLON.SpriteManager("spriteManager","textures/Dog1.png", 1, 300);
+var doggie = new BABYLON.Sprite("dog", doggieSprite);
+doggie.cellIndex = 1;
 var doggieHeight = 0.5;
 
 var stopDistance = 3;
@@ -187,6 +190,24 @@ scene.registerBeforeRender(function () {
     if (distance > stopDistance) {
         enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostion, 0.01);
     }
+});
+
+//SOUND
+const pop = new Howl({
+  src: ['sounds/pop.mp3'],
+  volume: 0.8
+});
+const bark1 = new Howl({
+  src: ['sounds/bark1.mp3'],
+  volume: 0.8
+});
+const sine1 = new Howl({
+  src: ['sounds/sine1.mp3'],
+  volume: 0.8
+});
+const sine2 = new Howl({
+  src: ['sounds/sine2.mp3'],
+  volume: 1.0
 });
 
 // *** BLINKING ***
@@ -221,6 +242,12 @@ window.addEventListener("keydown", (evt) => {
             wallMat.diffuseTexture = new BABYLON.Texture("textures/Dog1.png", scene);
         } else {
             wallMat.diffuseTexture = new BABYLON.Texture("textures/decorative_wall_1-1K/1K-grunge_wall_2_basecolor.png", scene);
+        }
+
+        if(Math.random() < 0.9){
+            sine1.play()
+        } else {
+            sine2.play()
         }
     }
 });
@@ -284,7 +311,10 @@ var grabItem = function(url) {
     return rect1;
 }
 
+let heardBarkTimer = 0;
+
 scene.onBeforeRenderObservable.add(() => {
+    let nearItem = false
     for (let i = 0; i < itemsList.length; i++) {
         const myItem = itemsList[i];
         const dist = BABYLON.Vector3.Distance(camera.position, myItem.position);
@@ -292,8 +322,18 @@ scene.onBeforeRenderObservable.add(() => {
             grabItem(myItem.manager.texture.name);
             myItem.isVisible = false;
             myItem.position.y = -10;
+            pop.play();
+        }
+        if(dist < 5){
+            nearItem = true;
         }
     }
+    if(nearItem && heardBarkTimer > 2){
+        bark1.play();
+        heardBarkTimer = 0
+        doggie.cellIndex = 0;
+    }
+    heardBarkTimer += engine.getDeltaTime() / 1000
 });
 // ** ITEM END ***
 
