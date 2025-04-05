@@ -152,6 +152,13 @@ wallMat = makeMap();
         newMeshes[0].rotation = new BABYLON.Vector3(0, 400, 0);
     });
 
+    //win-condition wall
+    //box 13,12
+    var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
+    box.position.y = 1, box.position.x = 52, box.position.z = 48;
+    box.checkCollisions = true;
+    box.material = wallMat
+
 // ground
 var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
 ground.checkCollisions = true;
@@ -187,10 +194,10 @@ var stopDistanceEnemy = 0;
 scene.registerBeforeRender(function () {
     var targetPostionEnemy = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
     var distanceEnemy = BABYLON.Vector3.Distance(enemy.position, targetPostionEnemy);
-    if (distanceEnemy > stopDistanceEnemy) {
-        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
-    }
+    
 });
+
+
 
 //SOUND
 const pop = new Howl({

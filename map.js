@@ -227,11 +227,6 @@ function makeMap() {
        box.checkCollisions = true;
        box.material = wallMat
 
-       //box 13,12
-       var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
-       box.position.y = 1, box.position.x = 52, box.position.z = 48;
-       box.checkCollisions = true;
-       box.material = wallMat
 
        //box 13,13
        var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
