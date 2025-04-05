@@ -64,69 +64,88 @@
         var sceneToRender = null;
         var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
         var createScene = function () {
-    // This creates a basic Babylon Scene object (non-mesh)
-    var scene = new BABYLON.Scene(engine);
 
-    // This creates and positions a free camera (non-mesh)
-    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+var scene = new BABYLON.Scene(engine);
+var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
 
-    camera.applyGravity = true;           // Apply gravity
-    camera.checkCollisions = true;        // Enable collision detection
-    camera.ellipsoid = new BABYLON.Vector3(1, 1, 1); // Camera's collision body
+scene.collisionsEnabled = true;
+scene.gravity = new BABYLON.Vector3(0, -1.5, 0);
 
-    scene.gravity = new BABYLON.Vector3(0, -0.5, 0); // Scene gravity
+camera.applyGravity = true;           // Apply gravity
+camera.checkCollisions = true;        // Enable collision detection
+camera.ellipsoid = new BABYLON.Vector3(1, 1, 1); // Camera's collision body
+camera.keysUp = [87];
+camera.keysDown = [83];
+camera.keysLeft = [65];
+camera.keysRight = [68];
+camera.attachControl(true);
+camera.speed = 0.5;
+camera.checkCollisions = true;
+camera.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
+camera.position.y = 2;
+camera.fov = BABYLON.Tools.ToRadians(70);
 
-    // Also enable collisions in the scene
-    scene.collisionsEnabled = true;
+// Light
+var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+light.intensity = 0.7; // Default intensity is 1.
 
-    camera.keysUp = [87];
-    camera.keysDown = [83];
-    camera.keysLeft = [65];
-    camera.keysRight = [68];
-    camera.attachControl(true);
-    camera.speed = 0.5;
-    camera.checkCollisions = true;
-    camera.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
-    camera.position.y = 2;
-    camera.fov = BABYLON.Tools.ToRadians(70);
-    scene.gravity = new BABYLON.Vector3(0, -1.5, 0);
-    scene.collisionsEnabled = true;
+//skybox
+var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
+var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+skyboxMaterial.backFaceCulling = false;
+// skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://github.com/BabylonJS/Assets/tree/master/skyboxes/skybox", scene);
+// skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+skybox.material = skyboxMaterial;
+skybox.infiniteDistance = true;
+// var hdrTexture = new BABYLON.CubeTexture("textures/skybox.png", scene);
+// scene.createDefaultSkybox(hdrTexture, true, 10000);
 
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+// box
+var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
+box.position.y = 1;
+box.checkCollisions = true;
 
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7;
+// ground
+var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 60, height: 60}, scene);
+ground.checkCollisions = true;
+var groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
+groundMaterial.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/grass.jpg", scene);
+ground.material = groundMaterial;
 
-    //wall
-    var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
-    box.position.y = 1;
-    box.checkCollisions = true;
+groundMaterial.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg", scene); // Your tiled texture path
+groundMaterial.diffuseTexture.uScale = 8; // Repeat texture along the X-axis
+groundMaterial.diffuseTexture.vScale = 8; // Repeat texture along the Y-axis
 
-    // ground
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 60, height: 60}, scene);
-    ground.checkCollisions = true;
-    var groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
-    groundMaterial.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/grass.jpg", scene);
-    ground.material = groundMaterial;
+// Create a sprite manager (so we can add multiple sprites)
+var arrowSprite = new BABYLON.SpriteManager("spriteManager", "https://www.babylonjs.com/assets/arrow.png", 2000, {width: 64, height: 64}, scene);
 
-    // Create a sprite manager (so we can add multiple sprites)
-    var spriteManager = new BABYLON.SpriteManager("spriteManager", "https://www.babylonjs.com/assets/arrow.png", 2000, {width: 64, height: 64}, scene);
+// Create the sprite
+var sprite = new BABYLON.Sprite("arrow", arrowSprite);
+sprite.position = new BABYLON.Vector3(0, 1, 5);  // Position the sprite
 
-    // Create the sprite
-    var sprite = new BABYLON.Sprite("arrow", spriteManager);
-    sprite.position = new BABYLON.Vector3(0, 1, 5);  // Position the sprite
+var doggie = new BABYLON.Sprite("arrow", arrowSprite);
+var doggieHeight = 0.3;
 
-    //skybox
-    var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-    skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
-    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0); skybox.material = skyboxMaterial;
+var stopDistance = 3; // Stop when within 2 units of the player
+scene.registerBeforeRender(function () {
+    var targetPostion = new BABYLON.Vector3(camera.position.x, doggieHeight, camera.position.z);
+    var distance = BABYLON.Vector3.Distance(doggie.position, targetPostion);
+    if (distance > stopDistance) {
+        doggie.position = BABYLON.Vector3.Lerp(doggie.position, targetPostion, 0.01);
+    }
+});
 
-    return scene;
+// BABYLON.SceneLoader.ImportMesh("", "scenes/", "skull.babylon", scene, function (newMeshes) {
+BABYLON.SceneLoader.ImportMesh("", "CoffeeCart/", "CoffeeCart_01_4k.gltf", scene, function (newMeshes) {
+    // Set the target of the camera to the first imported mesh
+    newMeshes[0].position.x = 5;
+});
+
+// scene.debugLayer.show();
+
+return scene;
 };
                 window.initFunction = async function() {
                     
