@@ -201,6 +201,10 @@ const bark1 = new Howl({
   src: ['sounds/bark1.mp3'],
   volume: 0.8
 });
+const bark2 = new Howl({
+  src: ['sounds/bark2.mp3'],
+  volume: 0.8
+});
 const sine1 = new Howl({
   src: ['sounds/sine1.mp3'],
   volume: 0.8
@@ -274,10 +278,6 @@ scene.onBeforeRenderObservable.add(() => {
     blurEffect.kernel = blurStrength;
     blurEffectY.kernel = blurStrength;
 
-    // if(blurTimer/1000 > 30){
-    //     bark1.play()
-    //     doggie.cellIndex = 2;
-    // }
     if(terror){
         bark1.play()
         doggie.cellIndex = 2;
@@ -289,23 +289,24 @@ scene.onBeforeRenderObservable.add(() => {
 // ** ITEMS ***
 var itemSprite1 = new BABYLON.SpriteManager("SM1", "textures/item1.png", 10, {width: 64, height: 64}, scene);
 var item1 = new BABYLON.Sprite("item", itemSprite1);
-item1.position = new BABYLON.Vector3(4, 0, 48);
+item1.position = new BABYLON.Vector3(4, 1, 48);
 
 var itemSprite2 = new BABYLON.SpriteManager("SM2", "textures/item2.png", 10, {width: 64, height: 64}, scene);
 var item2 = new BABYLON.Sprite("item", itemSprite2);
-item2.position = new BABYLON.Vector3(28, 0, 36);
+item2.position = new BABYLON.Vector3(28, 1, 36);
 
 var itemSprite3 = new BABYLON.SpriteManager("SM3", "textures/item3.png", 10, {width: 64, height: 64}, scene);
 var item3 = new BABYLON.Sprite("item", itemSprite3);
-item3.position = new BABYLON.Vector3(32, 0, 20);
+item3.position = new BABYLON.Vector3(32, 1, 20);
 
 var itemSprite4 = new BABYLON.SpriteManager("SM4", "textures/item4.png", 10, {width: 64, height: 64}, scene);
 var item4 = new BABYLON.Sprite("item", itemSprite4);
-item4.position = new BABYLON.Vector3(40, 0, 4);
+item4.position = new BABYLON.Vector3(40, 1, 4);
 
 var itemSprite5 = new BABYLON.SpriteManager("SM5", "textures/item5.png", 10, {width: 64, height: 64}, scene);
 var item5 = new BABYLON.Sprite("item", itemSprite5);
-item5.position = new BABYLON.Vector3(44, 0, 48);
+// item5.position = new BABYLON.Vector3(44, 1, 48);
+item5.position = new BABYLON.Vector3(5, 1, 5);
 
 itemsList = [item1, item2, item3, item4, item5]
 
@@ -334,24 +335,35 @@ scene.onBeforeRenderObservable.add(() => {
     for (let i = 0; i < itemsList.length; i++) {
         const myItem = itemsList[i];
         const dist = BABYLON.Vector3.Distance(camera.position, myItem.position);
-        if (dist < 1.5 && myItem.isVisible) {
+        if (dist < 1.5) {
             grabItem(myItem.manager.texture.name);
-            myItem.isVisible = false;
             myItem.position.y = -10;
             pop.play();
         }
-        if(dist < 5){
+        if(dist < 8){
             nearItem = true;
         }
     }
-    if(nearItem && heardBarkTimer > 2){
+    const enemyDist = BABYLON.Vector3.Distance(camera.position, enemy.position);
+    let nearEnemy = false
+    if(enemyDist < 5) {
+        nearEnemy = true
+    }
+
+    if(nearItem && heardBarkTimer > 2 && !nearEnemy){
         bark1.play();
         heardBarkTimer = 0
         doggie.cellIndex = 1;
-    } else if(!terror){
+    } else if(!terror && heardBarkTimer > 0.5){
         doggie.cellIndex = 0;
     }
+    if(nearEnemy && heardBarkTimer > 4){
+        bark2.play();
+        heardBarkTimer = 0;
+        doggie.cellIndex = 1;
+    }
     heardBarkTimer += engine.getDeltaTime() / 1000
+
 });
 // ** ITEM END ***
 
