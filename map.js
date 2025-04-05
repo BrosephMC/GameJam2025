@@ -361,7 +361,7 @@ function makeMap() {
 
        // box - 2,3
        var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
-       box.position.y = 1, box.position.x = 4, box.position.z = 12;
+       box.position.y = 1, box.position.x = 8, box.position.z = 12;
        box.checkCollisions = true;
        box.material = wallMat
 
