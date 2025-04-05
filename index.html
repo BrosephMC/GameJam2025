@@ -206,7 +206,7 @@ scene.registerBeforeRender(function () {
     var targetPostionEnemy = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
     var distanceEnemy = BABYLON.Vector3.Distance(enemy.position, targetPostionEnemy);
     if (distanceEnemy > stopDistanceEnemy) {
-        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
+        // enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
     }
     
 });
@@ -232,6 +232,14 @@ const sine1 = new Howl({
 });
 const sine2 = new Howl({
   src: ['sounds/sine2.mp3'],
+  volume: 5.0
+});
+const win = new Howl({
+  src: ['sounds/win.mp3'],
+  volume: 1.0
+});
+const lose = new Howl({
+  src: ['sounds/lose.mp3'],
   volume: 1.0
 });
 
@@ -367,21 +375,33 @@ scene.onBeforeRenderObservable.add(() => {
     }
     const enemyDist = BABYLON.Vector3.Distance(camera.position, enemy.position);
     let nearEnemy = false
-    if(enemyDist < 5) {
+    if(enemyDist < 7) {
         nearEnemy = true
+    }
+    if(enemyDist < 2 || (terror && BABYLON.Vector3.Distance(camera.position, doggie.position) < 2)) {
+        camera.position.y = -10
+        const textBlock = new BABYLON.GUI.TextBlock();
+        textBlock.text = "You Lost!";
+        textBlock.color = "white";  // Set text color
+        textBlock.fontSize = 24;    // Set font size
+
+        // Add the text block to the UI
+        advancedTexture.addControl(textBlock);
+        lose.play();
     }
 
     if(nearItem && heardBarkTimer > 2 && !nearEnemy){
         bark1.play();
         heardBarkTimer = 0
         doggie.cellIndex = 1;
-    } else if(!terror && heardBarkTimer > 0.5){
-        doggie.cellIndex = 0;
-    }
-    if(nearEnemy && heardBarkTimer > 4){
+    } 
+    if(nearEnemy && heardBarkTimer > 3){
         bark2.play();
         heardBarkTimer = 0;
         doggie.cellIndex = 1;
+    }
+    if(!terror && heardBarkTimer > 0.5){
+        doggie.cellIndex = 0;
     }
     heardBarkTimer += engine.getDeltaTime() / 1000
 
