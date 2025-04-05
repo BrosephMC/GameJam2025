@@ -157,7 +157,18 @@ wallMat = makeMap();
     var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
     box.position.y = 1, box.position.x = 52, box.position.z = 48;
     box.checkCollisions = true;
-    box.material = wallMat
+    var wallMat2 = new BABYLON.StandardMaterial("Mat", scene);
+    wallMat2.diffuseTexture = new BABYLON.Texture("textures/cementbrick_1-1K/cementbrick_1_basecolor-1K.png", scene);
+    box.material = wallMat2
+
+    //entry wall
+    //box -1,1
+    var box = BABYLON.MeshBuilder.CreateBox("box", {size: 4}, scene);
+    box.position.y = 1, box.position.x = -4, box.position.z = 4;
+    box.checkCollisions = true;
+    var wallMat2 = new BABYLON.StandardMaterial("Mat", scene);
+    wallMat2.diffuseTexture = new BABYLON.Texture("textures/cementbrick_1-1K/cementbrick_1_basecolor-1K.png", scene);
+    box.material = wallMat2
 
 // ground
 var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
@@ -194,6 +205,9 @@ var stopDistanceEnemy = 0;
 scene.registerBeforeRender(function () {
     var targetPostionEnemy = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
     var distanceEnemy = BABYLON.Vector3.Distance(enemy.position, targetPostionEnemy);
+    if (distanceEnemy > stopDistanceEnemy) {
+        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
+    }
     
 });
 
