@@ -123,11 +123,6 @@ groundMaterial.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg",
 groundMaterial.diffuseTexture.uScale = 80; // Repeat texture along the X-axis
 groundMaterial.diffuseTexture.vScale = 80; // Repeat texture along the Y-axis
 
-// Test Sprite
-var arrowSprite = new BABYLON.SpriteManager("spriteManager", "https://www.babylonjs.com/assets/arrow.png", 2000, {width: 64, height: 64}, scene);
-var sprite = new BABYLON.Sprite("arrow", arrowSprite);
-sprite.position = new BABYLON.Vector3(0, 1, 5);
-
 // Doggie
 var doggieSprite = new BABYLON.SpriteManager("spriteManager", "textures/Dog1.png", 10, {width: 645, height: 645}, scene);
 var doggie = new BABYLON.Sprite("arrow", doggieSprite);
@@ -200,11 +195,65 @@ scene.onBeforeRenderObservable.add(() => {
     // Set blur kernel size
     blurEffect.kernel = blurStrength;
     blurEffectY.kernel = blurStrength;
+
+
 });
 
 // *** BLINKING  END ***
 
-// scene.debugLayer.show();
+// ** ITEMS ***
+var itemSprite1 = new BABYLON.SpriteManager("SM1", "textures/item1.png", 10, {width: 64, height: 64}, scene);
+var item1 = new BABYLON.Sprite("item", itemSprite1);
+item1.position = new BABYLON.Vector3(2, 1, -5);
+
+var itemSprite2 = new BABYLON.SpriteManager("SM2", "textures/item2.png", 10, {width: 64, height: 64}, scene);
+var item2 = new BABYLON.Sprite("item", itemSprite2);
+item2.position = new BABYLON.Vector3(10, 1, -5);
+
+var itemSprite3 = new BABYLON.SpriteManager("SM3", "textures/item3.png", 10, {width: 64, height: 64}, scene);
+var item3 = new BABYLON.Sprite("item", itemSprite3);
+item3.position = new BABYLON.Vector3(1, 1, 4);
+
+var itemSprite4 = new BABYLON.SpriteManager("SM4", "textures/item4.png", 10, {width: 64, height: 64}, scene);
+var item4 = new BABYLON.Sprite("item", itemSprite4);
+item4.position = new BABYLON.Vector3(2, 1, -3);
+
+var itemSprite5 = new BABYLON.SpriteManager("SM5", "textures/item5.png", 10, {width: 64, height: 64}, scene);
+var item5 = new BABYLON.Sprite("item", itemSprite5);
+item5.position = new BABYLON.Vector3(-5, 1, -5);
+
+itemsList = [item1, item2, item3, item4, item5]
+
+const advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+const hotbar = new BABYLON.GUI.StackPanel();
+hotbar.isVertical = false;
+hotbar.height = "100px";
+hotbar.width = "100%";
+hotbar.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+hotbar.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+advancedTexture.addControl(hotbar);
+
+var grabItem = function(url) {
+    var rect1 = new BABYLON.GUI.Image("slot", url);
+    rect1.width = "80px";
+    rect1.height = "80px";
+    hotbar.addControl(rect1);    
+    return rect1;
+}
+
+scene.onBeforeRenderObservable.add(() => {
+    for (let i = 0; i < itemsList.length; i++) {
+        const myItem = itemsList[i];
+        const dist = BABYLON.Vector3.Distance(camera.position, myItem.position);
+        if (dist < 1.5 && myItem.isVisible) {
+            grabItem(myItem.manager.texture.name);
+            myItem.isVisible = false;
+            myItem.position.y = -10;
+        }
+    }
+});
+// ** ITEM END ***
 
 return scene;
 };
