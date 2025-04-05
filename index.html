@@ -109,6 +109,9 @@ skybox.infiniteDistance = true;
 var box = BABYLON.MeshBuilder.CreateBox("box", {size: 2}, scene);
 box.position.y = 1;
 box.checkCollisions = true;
+var wallMat = new BABYLON.StandardMaterial("Mat", scene);
+wallMat.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg", scene);
+box.material = wallMat
 
 // ground
 var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 60, height: 60}, scene);
