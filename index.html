@@ -142,6 +142,11 @@ BABYLON.SceneLoader.ImportMesh("", "CoffeeCart/", "CoffeeCart_01_4k.gltf", scene
     newMeshes[0].position.x = 5;
 });
 
+BABYLON.SceneLoader.ImportMesh("", "Chair/", "plastic_monobloc_chair_01_1k.gltf", scene, function (newMeshes) {
+    // Set the target of the camera to the first imported mesh
+    newMeshes[0].position.x = 10;
+});
+
 // scene.debugLayer.show();
 
 return scene;
