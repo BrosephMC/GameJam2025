@@ -233,6 +233,52 @@ BABYLON.SceneLoader.ImportMesh("", "Walls/", "Wall_Plaster_Straight.gltf", scene
     newMeshes[0].position.x = 20;
 });
 
+// *** BLINKING ***
+// Create blur effect ONCE and keep it
+const blurEffect = new BABYLON.BlurPostProcess(
+    "blur",
+    new BABYLON.Vector2(1.0, 0.0), // horizontal blur
+    0,  // initial blur size
+    1.0,
+    camera
+);
+const blurEffectY = new BABYLON.BlurPostProcess(
+    "blurY",
+    new BABYLON.Vector2(0.0, 1.0), // vertical blur
+    0,
+    1.0,
+    camera
+);
+
+let blurStrength = 0;
+let blurTimer = 0;
+const blurDelay = 100; // ms before blur starts
+const blurIncreaseRate = 10; // blur strength increase per second
+
+// Handle input
+window.addEventListener("keydown", (evt) => {
+    if (evt.key === "b" || evt.key === "B") {
+        blurTimer = 0;
+        blurStrength = 0;
+    }
+});
+
+// Per-frame update
+scene.onBeforeRenderObservable.add(() => {
+    blurTimer += engine.getDeltaTime();
+
+    if (blurTimer > blurDelay) {
+        blurStrength += blurIncreaseRate * engine.getDeltaTime() / 1000;
+        blurStrength = Math.min(blurStrength, 200); // cap blur
+    }
+
+    // Set blur kernel size
+    blurEffect.kernel = blurStrength;
+    blurEffectY.kernel = blurStrength;
+});
+
+// *** BLINKING  END ***
+
 // scene.debugLayer.show();
 
 return scene;
