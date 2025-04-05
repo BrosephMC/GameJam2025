@@ -71,19 +71,22 @@ var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), s
 scene.collisionsEnabled = true;
 scene.gravity = new BABYLON.Vector3(0, -1.5, 0);
 
-camera.applyGravity = true;           // Apply gravity
-camera.checkCollisions = true;        // Enable collision detection
-camera.ellipsoid = new BABYLON.Vector3(1, 1, 1); // Camera's collision body
+camera.applyGravity = true;
+camera.checkCollisions = true;
+camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
 camera.keysUp = [87];
 camera.keysDown = [83];
 camera.keysLeft = [65];
 camera.keysRight = [68];
 camera.attachControl(true);
-camera.speed = 0.5;
+camera.speed = 1;
 camera.checkCollisions = true;
 camera.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
 camera.position.y = 2;
 camera.fov = BABYLON.Tools.ToRadians(70);
+camera.minZ = 0.1;
+camera.inertia = 0.5;
+camera.angularSensibility = 200;
 
 // Light
 var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -137,7 +140,7 @@ scene.registerBeforeRender(function () {
 });
 
 // BABYLON.SceneLoader.ImportMesh("", "scenes/", "skull.babylon", scene, function (newMeshes) {
-BABYLON.SceneLoader.ImportMesh("", "CoffeeCart/", "CoffeeCart_01_4k.gltf", scene, function (newMeshes) {
+BABYLON.SceneLoader.ImportMesh("", "CoffeeCart/", "CoffeeCart_01_1k.gltf", scene, function (newMeshes) {
     // Set the target of the camera to the first imported mesh
     newMeshes[0].position.x = 5;
 });

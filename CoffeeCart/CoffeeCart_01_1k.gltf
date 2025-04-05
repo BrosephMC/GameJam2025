@@ -148,32 +148,32 @@
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_cart_nor_gl",
-      "uri": "textures/CoffeeCart_01_cart_nor_gl_4k.jpg"
+      "uri": "textures/CoffeeCart_01_cart_nor_gl_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_cart_diff",
-      "uri": "textures/CoffeeCart_01_cart_diff_4k.jpg"
+      "uri": "textures/CoffeeCart_01_cart_diff_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_cart_metallic-CoffeeCart_01_cart_roughness",
-      "uri": "textures/CoffeeCart_01_cart_arm_4k.jpg"
+      "uri": "textures/CoffeeCart_01_cart_arm_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_props_nor_gl",
-      "uri": "textures/CoffeeCart_01_props_nor_gl_4k.jpg"
+      "uri": "textures/CoffeeCart_01_props_nor_gl_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_props_diff",
-      "uri": "textures/CoffeeCart_01_props_diff_4k.jpg"
+      "uri": "textures/CoffeeCart_01_props_diff_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "CoffeeCart_01_props_metallic-CoffeeCart_01_props_roughness",
-      "uri": "textures/CoffeeCart_01_props_arm_4k.jpg"
+      "uri": "textures/CoffeeCart_01_props_arm_1k.jpg"
     }
   ],
   "accessors": [
