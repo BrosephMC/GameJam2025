@@ -111,24 +111,23 @@ box.checkCollisions = true;
 var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 60, height: 60}, scene);
 ground.checkCollisions = true;
 var groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
-groundMaterial.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/grass.jpg", scene);
 ground.material = groundMaterial;
-
-groundMaterial.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg", scene); // Your tiled texture path
+// groundMaterial.diffuseTexture = new BABYLON.Texture("https://assets.babylonjs.com/environments/grass.jpg", scene);
+groundMaterial.diffuseTexture = new BABYLON.Texture("textures/Ground/color.jpg", scene);
 groundMaterial.diffuseTexture.uScale = 8; // Repeat texture along the X-axis
 groundMaterial.diffuseTexture.vScale = 8; // Repeat texture along the Y-axis
 
-// Create a sprite manager (so we can add multiple sprites)
+// Test Sprite
 var arrowSprite = new BABYLON.SpriteManager("spriteManager", "https://www.babylonjs.com/assets/arrow.png", 2000, {width: 64, height: 64}, scene);
-
-// Create the sprite
 var sprite = new BABYLON.Sprite("arrow", arrowSprite);
-sprite.position = new BABYLON.Vector3(0, 1, 5);  // Position the sprite
+sprite.position = new BABYLON.Vector3(0, 1, 5);
 
-var doggie = new BABYLON.Sprite("arrow", arrowSprite);
-var doggieHeight = 0.3;
+// Doggie
+var doggieSprite = new BABYLON.SpriteManager("spriteManager", "textures/Dog1.png", 10, {width: 645, height: 645}, scene);
+var doggie = new BABYLON.Sprite("arrow", doggieSprite);
+var doggieHeight = 0.5;
 
-var stopDistance = 3; // Stop when within 2 units of the player
+var stopDistance = 3;
 scene.registerBeforeRender(function () {
     var targetPostion = new BABYLON.Vector3(camera.position.x, doggieHeight, camera.position.z);
     var distance = BABYLON.Vector3.Distance(doggie.position, targetPostion);
