@@ -150,6 +150,16 @@ BABYLON.SceneLoader.ImportMesh("", "Chair/", "plastic_monobloc_chair_01_1k.gltf"
     newMeshes[0].position.x = 10;
 });
 
+BABYLON.SceneLoader.ImportMesh("", "Toilet/", "uploads_files_2406324_Toilet.gltf", scene, function (newMeshes) {
+    // Set the target of the camera to the first imported mesh
+    newMeshes[0].position.x = 15;
+});
+
+BABYLON.SceneLoader.ImportMesh("", "Walls/", "Wall_Plaster_Straight.gltf", scene, function (newMeshes) {
+    // Set the target of the camera to the first imported mesh
+    newMeshes[0].position.x = 20;
+});
+
 // scene.debugLayer.show();
 
 return scene;
