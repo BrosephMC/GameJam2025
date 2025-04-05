@@ -200,18 +200,24 @@ scene.registerBeforeRender(function () {
 var enemySprite = new BABYLON.SpriteManager("spriteManager", "textures/Enemy3.png", 10, {width: 851, height: 851}, scene);
 var enemy = new BABYLON.Sprite("arrow", enemySprite);
 var enemyHeight = .5;
+enemy.position.y = enemyHeight;
+enemy.position.x = Math.floor(Math.random() * 48)
+enemy.position.z = Math.floor(Math.random() * 48)
 
 var stopDistanceEnemy = 0;
 scene.registerBeforeRender(function () {
     var targetPostionEnemy = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
     var distanceEnemy = BABYLON.Vector3.Distance(enemy.position, targetPostionEnemy);
     if (distanceEnemy > stopDistanceEnemy) {
-        // enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
+        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.005);
     }
-    
+
+    if(Math.random() < 0.001){
+        enemy.position.x = Math.random() * 48
+        enemy.position.z = Math.random() * 48
+        whoosh.play()
+    }
 });
-
-
 
 //SOUND
 const pop = new Howl({
@@ -245,7 +251,11 @@ const lose = new Howl({
 const collected = new Howl({
     src: ['sounds/collected.mp3'],
     volume: 1.0
-  });
+});
+const whoosh = new Howl({
+    src: ['sounds/whoosh.mp3'],
+    volume: 0.8
+});
 
 // *** BLINKING ***
 // Create blur effect ONCE and keep it
@@ -400,12 +410,11 @@ scene.onBeforeRenderObservable.add(() => {
     if(collectedItems >= 5){
         //win-condition wall
         //box 13,12
-        winBox.position.y = 4, winBox.position.x = 52, winBox.position.z = 48;
-        winBox.checkCollisions = false;
         collected.play();
+        collectedItems = -1;
     }
 
-    if(BABYLON.Vector3.Distance(camera.position, new BABYLON.Vector3(52, 1, 48)) < 1){
+    if(collectedItems == -1 && BABYLON.Vector3.Distance(camera.position, new BABYLON.Vector3(52, 1, 48)) < 5){
         camera.position.y = -10
         const textBlock = new BABYLON.GUI.TextBlock();
         textBlock.text = "You Won!";
