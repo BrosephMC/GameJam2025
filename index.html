@@ -87,7 +87,7 @@ camera.attachControl(true);
 camera.speed = 1;
 camera.checkCollisions = true;
 camera.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
-camera.position.y = 10;
+camera.position.y = 2;
 camera.position.x = 0;
 camera.position.z = 4;
 camera.fov = BABYLON.Tools.ToRadians(70);
@@ -183,12 +183,12 @@ var enemySprite = new BABYLON.SpriteManager("spriteManager", "textures/Enemy3.pn
 var enemy = new BABYLON.Sprite("arrow", enemySprite);
 var enemyHeight = .5;
 
-var stopDistance = 3;
+var stopDistanceEnemy = 0;
 scene.registerBeforeRender(function () {
-    var targetPostion = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
-    var distance = BABYLON.Vector3.Distance(enemy.position, targetPostion);
-    if (distance > stopDistance) {
-        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostion, 0.01);
+    var targetPostionEnemy = new BABYLON.Vector3(camera.position.x, enemyHeight, camera.position.z);
+    var distanceEnemy = BABYLON.Vector3.Distance(enemy.position, targetPostionEnemy);
+    if (distanceEnemy > stopDistanceEnemy) {
+        enemy.position = BABYLON.Vector3.Lerp(enemy.position, targetPostionEnemy, 0.01);
     }
 });
 
@@ -273,23 +273,23 @@ scene.onBeforeRenderObservable.add(() => {
 // ** ITEMS ***
 var itemSprite1 = new BABYLON.SpriteManager("SM1", "textures/item1.png", 10, {width: 64, height: 64}, scene);
 var item1 = new BABYLON.Sprite("item", itemSprite1);
-item1.position = new BABYLON.Vector3(4, 5, 48);
+item1.position = new BABYLON.Vector3(4, 0, 48);
 
 var itemSprite2 = new BABYLON.SpriteManager("SM2", "textures/item2.png", 10, {width: 64, height: 64}, scene);
 var item2 = new BABYLON.Sprite("item", itemSprite2);
-item2.position = new BABYLON.Vector3(28, 5, 36);
+item2.position = new BABYLON.Vector3(28, 0, 36);
 
 var itemSprite3 = new BABYLON.SpriteManager("SM3", "textures/item3.png", 10, {width: 64, height: 64}, scene);
 var item3 = new BABYLON.Sprite("item", itemSprite3);
-item3.position = new BABYLON.Vector3(32, 5, 20);
+item3.position = new BABYLON.Vector3(32, 0, 20);
 
 var itemSprite4 = new BABYLON.SpriteManager("SM4", "textures/item4.png", 10, {width: 64, height: 64}, scene);
 var item4 = new BABYLON.Sprite("item", itemSprite4);
-item4.position = new BABYLON.Vector3(40, 5, 4);
+item4.position = new BABYLON.Vector3(40, 0, 4);
 
 var itemSprite5 = new BABYLON.SpriteManager("SM5", "textures/item5.png", 10, {width: 64, height: 64}, scene);
 var item5 = new BABYLON.Sprite("item", itemSprite5);
-item5.position = new BABYLON.Vector3(44, 5, 48);
+item5.position = new BABYLON.Vector3(44, 0, 48);
 
 itemsList = [item1, item2, item3, item4, item5]
 
